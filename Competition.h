@@ -7,7 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ActiveRecord.h"
 
-@interface Competition : NSObject
+@interface Competition : ActiveRecord
+
+
+@property (nonatomic) int id;
+@property (nonatomic, strong) NSString *game;
+@property (nonatomic, strong) NSString *desc;
+
++(NSString *)tableName;
+
 
 @end

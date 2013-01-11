@@ -10,4 +10,18 @@
 
 @implementation Competition
 
+
+static NSString *tableName = @"competitions";
+
+
+@synthesize game=_game;
+@synthesize desc=_desc;
+@synthesize id=_id;
+
+
++(NSString *)tableName
+{
+    return tableName;
+}
+
 @end

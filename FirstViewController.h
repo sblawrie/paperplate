@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LoginViewController.h"
 #import "User.h"
+#import "Competition.h"
 
 @interface FirstViewController : UIViewController <LoginViewControllerDelegate>
 

@@ -7,13 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ActiveRecord.h"
 
-@interface User : NSManagedObject
+@interface User : ActiveRecord
 
-@property (nonatomic) int uid;
-@property (nonatomic, strong) NSString *firstName;
-@property (nonatomic, strong) NSString *lastName;
+@property (nonatomic) int id;
+@property (nonatomic, strong) NSString *first_name;
+@property (nonatomic, strong) NSString *last_name;
+@property (nonatomic, strong) NSString *email;
 
--(void)awakeFromInsert;
++(User *)getUser;
++(NSString *)tableName;
+
+
 
 @end

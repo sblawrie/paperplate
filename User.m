@@ -10,20 +10,39 @@
 
 @implementation User
 
-@synthesize uid=_uid;
-@synthesize firstName=_firstName;
-@synthesize lastName=_lastName;
+static NSString *tableName = @"users";
 
--(void)awakeFromInsert
+@synthesize first_name=_first_name;
+@synthesize last_name=_last_name;
+@synthesize email=_email;
+@synthesize id=_id;
+
+
+
++(User *)getUser
 {
-    self.uid = [[NSUserDefaults standardUserDefaults] stringForKey:@"uid"].intValue;
-    NSString *url = [NSString stringWithFormat:@"http://localhost/paperplate/users?handle=%@&uid=%d", [[NSUserDefaults standardUserDefaults]  stringForKey:@"handle"], self.uid];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    //NSString *get = [[NSString alloc] initWithData:response encoding:NSUTF8StringEncoding];
-    NSMutableDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData: response options: NSJSONReadingMutableContainers error: nil];
-    [self setValue:[jsonDict objectForKey:@"first_name"] forKey:@"firstName"];
-    [self setValue:[jsonDict objectForKey:@"last_name"] forKey:@"lastName"];
+    NSString *uidstr;
+    if ((uidstr = [[NSUserDefaults standardUserDefaults] stringForKey:@"uid"]))
+    {
+        NSDictionary *conditions = [NSDictionary dictionaryWithObjectsAndKeys:uidstr, @"id", nil];
+        User *user = [self getWhere:conditions];
+        return user;
+    }
+    else
+    {
+        return false;
+    }
+   
 }
+
++(NSString *)tableName
+{
+    return tableName;
+}
+
+
+
+
+
 
 @end

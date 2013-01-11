@@ -46,7 +46,7 @@
     
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost/paperplate/login"]];
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://localhost/paperplate2/users/login"]];
     [request setHTTPMethod:@"POST"];
     [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
@@ -59,7 +59,6 @@
 {
     NSError *e = nil;
     NSMutableDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData: data options: NSJSONReadingMutableContainers error: &e];
-    
     NSString *str = [[NSString alloc] init];
     if (!jsonDict) {
         NSLog(@"Error parsing JSON: %@", e);
@@ -70,11 +69,12 @@
     }
     if([str isEqualToString:@"true"])
     {
+        NSString *uid = [[jsonDict objectForKey:@"session"] objectForKey:@"uid"];
+        NSString *handle = [[jsonDict objectForKey:@"session"] objectForKey:@"handle"];
         NSUserDefaults  *defaults = [NSUserDefaults standardUserDefaults];
-        [defaults setObject:[jsonDict objectForKey:@"uid"] forKey:@"uid"];
-        [defaults setObject:[jsonDict objectForKey:@"handle"] forKey:@"handle"];
+        [defaults setObject:uid forKey:@"uid"];
+        [defaults setObject:handle forKey:@"handle"];
         [defaults synchronize];
-        
         [self.delegate viewDidLoad];
         [self.delegate loginViewDidFinish];
     }
